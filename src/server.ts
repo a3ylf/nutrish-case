@@ -1,4 +1,3 @@
-// /src/config/server.ts
 
 import express from 'express';
 import { statusRoute } from './routes/health';

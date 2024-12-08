@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import { puppeteerConfig } from '../cfg/puppeteerConfig.ts';
+import { puppeteerConfig } from '../cfg/puppeteerConfig';
 
 // Function to fetch data from Examine.com
 export async function fetchExamineData(type: string, query: string) {
@@ -58,7 +58,7 @@ export async function fetchExamineData(type: string, query: string) {
         // Split the content into paragraphs based on '\n\n' and filter them based on length
         const paragraphs = data.content.split('\n\n').filter(paragraph => {
             // Filter out paragraphs that are too short or too long
-            return paragraph.length >= 150 && paragraph.length <= 1000;
+            return paragraph.length >= 100 && paragraph.length <= 1000;
         });
 
         // Log how many valid sections were extracted
@@ -74,14 +74,15 @@ export async function fetchExamineData(type: string, query: string) {
         // Return the filtered data to the caller
         return filteredData;
 
-    } catch (error) {
-        // Log the error and return it as part of the response if an error occurs
-        console.error('An error occurred:', error.message);
-        
-        // Return the error message as part of the response
-        return { error: error.message };
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error('An error occurred:', error.message);
+            throw error; // Optionally re-throw the error
+        } else {
+            console.error('An unknown error occurred:', error);
+            throw new Error('An unknown error occurred');
+        }
     } finally {
-        // Close the browser if it's open, to ensure resources are freed
         if (browser) {
             await browser.close();
         }
