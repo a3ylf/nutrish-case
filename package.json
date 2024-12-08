@@ -10,10 +10,4 @@
     "@types/node": "^22.10.1",
     "typescript": "^5.7.2"
   }
-  "scripts": {
-    "start": "node build/server.js",
-    "build": "tsc",
-    "dev": "nodemon --watch src --exec ts-node src/server.ts",
-    "docker": "docker-compose up --build"
-  },
-}
+ }
