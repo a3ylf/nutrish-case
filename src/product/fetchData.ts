@@ -1,7 +1,5 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs';
-import { puppeteerConfig } from '../cfg/puppeteerConfig.ts';  // Importando a configuração
-
+import { puppeteerConfig } from '../cfg/puppeteerConfig.ts';
 export async function fetchExamineData(type, query) {
     let browser;
     try {
@@ -45,7 +43,7 @@ export async function fetchExamineData(type, query) {
         });
 
         const paragraphs = data.content.split('\n\n').filter(paragraph => {
-            return paragraph.length >= 100 && paragraph.length <= 1000; // filtros para remover parágrafos irrelevantes
+            return paragraph.length >= 100 && paragraph.length <= 1000; 
         });
 
         console.log(`Extracted ${paragraphs.length} valid sections.`);
@@ -58,9 +56,6 @@ export async function fetchExamineData(type, query) {
 
         console.log('Filtered Data:', filteredData);
 
-        const filePath = `${query.toLowerCase()}_filtered_info.json`;
-        fs.writeFileSync(filePath, JSON.stringify(filteredData, null, 2));
-        console.log(`Data written to ${filePath}`);
 
         return filteredData;
     } catch (error) {
@@ -73,13 +68,5 @@ export async function fetchExamineData(type, query) {
     }
 }
 
-(async () => {
-    const type = 'conditions'; // Tipo a ser pesquisado
-    const query = 'insomnia'; // Produto a ser pesquisado
-    try {
-        await fetchExamineData(type, query);
-    } catch (error) {
-        console.error('Failed to fetch data:', error.message);
-    }
-})();
+
 
