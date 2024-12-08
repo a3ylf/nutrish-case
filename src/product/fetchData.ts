@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import { puppeteerConfig } from '../cfg/puppeteerConfig';
 
 // Function to fetch data from Examine.com

@@ -7,6 +7,7 @@ export const puppeteerConfig = {
         '--disable-web-security',
         '--allow-running-insecure-content'
     ],
+    executablePath: '/usr/bin/google-chrome',
     setCacheEnabled: true,
     setRequestInterception: true,
     blockedDomains: ['google-analytics.com', 'doubleclick.net', 'ads']
