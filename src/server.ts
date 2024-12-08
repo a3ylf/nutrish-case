@@ -1,7 +1,7 @@
 
 import express from 'express';
-import { statusRoute } from './routes/health';
-import { fetchRoute } from './routes/fetch';
+import { statusRoute } from './api/health';
+import { fetchRoute } from './api/fetch';
 
 // Initialize the Express app
 const app = express();
