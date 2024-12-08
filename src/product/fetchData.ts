@@ -1,39 +1,30 @@
 import puppeteer from 'puppeteer';
 import fs from 'fs';
+import { puppeteerConfig } from '../cfg/puppeteerConfig.ts';  // Importando a configuração
 
-async function fetchExamineData(type, query) {
+export async function fetchExamineData(type, query) {
     let browser;
     try {
-        browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-blink-features=AutomationControlled',
-                '--disable-web-security',
-                '--allow-running-insecure-content'
-            ]
-        });
+        browser = await puppeteer.launch(puppeteerConfig);
 
         const page = await browser.newPage();
 
         await page.setUserAgent(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
         );
-        await page.setCacheEnabled(true);
-        await page.setRequestInterception(true);
+        await page.setCacheEnabled(puppeteerConfig.setCacheEnabled);
+        await page.setRequestInterception(puppeteerConfig.setRequestInterception);
+
         page.on('request', (request) => {
             const resourceType = request.resourceType();
             const url = request.url();
 
-            const blockedDomains = ['google-analytics.com', 'doubleclick.net', 'ads'];
             if (
                 ['image', 'stylesheet', 'media', 'script'].includes(resourceType) ||
-                blockedDomains.some((domain) => url.includes(domain))
+                puppeteerConfig.blockedDomains.some((domain) => url.includes(domain))
             ) {
                 request.abort();
             } else {
-
                 request.continue();
             }
         });
@@ -54,7 +45,7 @@ async function fetchExamineData(type, query) {
         });
 
         const paragraphs = data.content.split('\n\n').filter(paragraph => {
-            return paragraph.length >= 100 && paragraph.length <= 1000; // filters meaningless comments
+            return paragraph.length >= 100 && paragraph.length <= 1000; // filtros para remover parágrafos irrelevantes
         });
 
         console.log(`Extracted ${paragraphs.length} valid sections.`);
