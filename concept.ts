@@ -20,8 +20,25 @@ async function fetchExamineData(type, query) {
         await page.setUserAgent(
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
         );
+        await page.setCacheEnabled(true);
+        await page.setRequestInterception(true);
+        page.on('request', (request) => {
+            const resourceType = request.resourceType();
+            const url = request.url();
 
-        const url = `https://examine.com/${type}/${query.toLowerCase()}/`;
+            const blockedDomains = ['google-analytics.com', 'doubleclick.net', 'ads'];
+            if (
+                ['image', 'stylesheet', 'media', 'script'].includes(resourceType) ||
+                blockedDomains.some((domain) => url.includes(domain))
+            ) {
+                request.abort();
+            } else {
+
+                request.continue();
+            }
+        });
+
+        const url = `https://examine.com/${type.toLowerCase()}/${query.toLowerCase()}/`;
         console.log(`Navigating to ${url}...`);
 
         await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
@@ -66,11 +83,10 @@ async function fetchExamineData(type, query) {
 }
 
 (async () => {
-    const type = 'supplements'; // Tipo a ser pesquisado
-    const query = 'creatine'; // Produto a ser pesquisado
+    const type = 'conditions'; // Tipo a ser pesquisado
+    const query = 'insomnia'; // Produto a ser pesquisado
     try {
-        const data = await fetchExamineData(type, query);
-        console.log('Final Data:', data);
+        await fetchExamineData(type, query);
     } catch (error) {
         console.error('Failed to fetch data:', error.message);
     }
