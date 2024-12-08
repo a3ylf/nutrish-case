@@ -1,46 +1,52 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
+import puppeteer from 'puppeteer';
+import fs from 'fs';
 
 (async () => {
-    const browser = await puppeteer.launch({
-        headless: false,
-        args: [
-            '--start-maximized',
-            '--disable-blink-features=AutomationControlled',
-            '--disable-web-security',
-            '--allow-running-insecure-content'
-        ],
-        defaultViewport: null
-    });
+    let browser;
+    try {
+        browser = await puppeteer.launch({
+            headless: true, 
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-blink-features=AutomationControlled',
+                '--disable-web-security',
+                '--allow-running-insecure-content'
+            ]
+        });
 
-    const page = await browser.newPage();
+        const page = await browser.newPage();
 
-    await page.setUserAgent(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
-    );
+        await page.setUserAgent(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
+        );
 
-    // Navegar para a página de creatina
-    await page.goto('https://examine.com/supplements/creatine/', { waitUntil: 'networkidle2' });
+        const url = 'https://examine.com/supplements/creatine/';
+        console.log(`Navigating to ${url}...`);
 
-    // Extraindo informações principais
-    const data = await page.evaluate(() => {
-        const content = document.querySelector('article').innerText; // Obtém o texto do artigo principal
-        const sections = Array.from(document.querySelectorAll('h2, h3, p')).map(el => ({
-            tag: el.tagName,
-            text: el.innerText.trim()
-        }));
-        return { content, sections };
-    });
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
-    // Exibindo os dados extraídos
-    console.log(data);
+        const articleExists = await page.$('article');
+        if (!articleExists) {
+            throw new Error('couldn\'t find data');
+        }
 
-    // Salvando em arquivo JSON
-    fs.writeFile('creatine_info.json', JSON.stringify(data, null, 2), err => {
-        if (err) throw err;
-        console.log('Data written to file');
-    });
+        const data = await page.evaluate(() => {
+            const content = document.querySelector('article')?.innerText.trim() || '';
+            return { content };
+        });
 
-    await browser.close();
+        console.log('Extracted data:', data);
+
+        const filePath = 'creatine_info.json';
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+        console.log(`Data written to ${filePath}`);
+    } catch (error) {
+        console.error('An error occurred:', error.message);
+    } finally {
+        if (browser) {
+            await browser.close();
+        }
+    }
 })();
 
