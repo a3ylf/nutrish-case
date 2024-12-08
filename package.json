@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/server.js",
-    "build": "tsc",
+    "build": "npx puppeteer install & tsc",
     "dev": "nodemon --watch src --exec ts-node src/server.ts"
   },
   "keywords": [],
