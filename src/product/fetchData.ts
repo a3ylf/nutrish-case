@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import { puppeteerConfig } from '../cfg/puppeteerConfig';
 
 // Function to fetch data from Examine.com
@@ -58,7 +58,7 @@ export async function fetchExamineData(type: string, query: string) {
         // Split the content into paragraphs based on '\n\n' and filter them based on length
         const paragraphs = data.content.split('\n\n').filter(paragraph => {
             // Filter out paragraphs that are too short or too long
-            return paragraph.length >= 100 && paragraph.length <= 1000;
+            return paragraph.length >= 150 && paragraph.length <= 1000;
         });
 
         // Log how many valid sections were extracted

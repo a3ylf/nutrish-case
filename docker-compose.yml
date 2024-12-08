@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  puppeteer-app:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "1212:1212"
+    command: npm run dev
+    environment:
+      - WATCHPACK_POLLING=true
