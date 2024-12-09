@@ -27,15 +27,15 @@ Key Features
 Getting Started with Docker
 Step 1: Clone the Repository
 
-git clone https://github.com/a3ylf/nutrish-case.git .
+    git clone https://github.com/a3ylf/nutrish-case.git .
 
 Step 2: Build and Run the Docker Container
 
-docker-compose up --build
+    docker-compose up --build
 
 Alternatively, use:
 
-npm run docker
+    npm run docker
 
 Step 3: Access the Application
 
@@ -110,3 +110,10 @@ Technologies Used
     Containerization: Docker for easy deployment.
     Testing: Postman workspace for API validation.
     Web Optimization: Request interception for faster scraping.
+
+### Currently hosted at render
+https://nutrish-case-1.onrender.com/
+example use cases
+https://nutrish-case-1.onrender.com/fetch/supplements/creatine
+https://nutrish-case-1.onrender.com/fetch/categories/sleep
+https://nutrish-case-1.onrender.com/fetch/conditions/insomnia
