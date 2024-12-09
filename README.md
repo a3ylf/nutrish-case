@@ -31,12 +31,12 @@ git clone https://github.com/a3ylf/nutrish-case.git .
 
 Step 2: Build and Run the Docker Container
 ````
- docker-compose up --build
+docker-compose up --build
 ````
 
 Alternatively, use:
 ````
-   npm run docker
+npm run docker
 ````
 Step 3: Access the Application
 
