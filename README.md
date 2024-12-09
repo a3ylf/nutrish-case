@@ -64,34 +64,24 @@ Health Check
 Endpoint: GET /status
 Description: Verifies if the API is operational.
 
-Technical Details
-Web Scraping with Puppeteer
+# Technical Details
+## Web Scraping with Puppeteer
 
 Dynamically fetches content from Examine.com by waiting for the DOM to fully load.
 Optimized through request interception, blocking unnecessary resources like images, fonts, and advertisements.
 
-Dynamic Query Processing
 
-Queries are sanitized by replacing spaces with hyphens and encoding special characters.
-Provides related supplements when no exact match exists, enhancing usability.
+## Error Management
 
-Error Management
+Handles missing data or invalid inputs with informative error messages.
 
-Handles missing data or invalid inputs gracefully with informative error messages.
-Automatically avoids duplicate entries by filtering results with a Set.
-
-Summarized Responses
-
- Optionally compresses extracted data into concise outputs for easier consumption.
-
-Deployment Readiness
+## Deployment Readiness
 
 Dockerized for portability, ensuring fast and consistent deployment.
-Preconfigured Postman collection simplifies API testing for developers.
 
-Challenges and Solutions
+## Challenges and Solutions
 1. Scraping
-   My first approach was to use cheerio for web scraping, which is my go-to for this kind of problem, but it was denied by the examine.com bot protection, the solution was to use puppeteer instead, which acts as an user.
+   My first approach was to use Axios for web scraping, which is my go-to for this kind of problem, but it was denied by the examine.com bot protection, the solution was to use puppeteer instead, which acts as an user.
 
     Handled Examine.com’s dynamically loaded content using Puppeteer’s waitUntil: 'domcontentloaded' option to extract fully loaded data.
 
