@@ -6,36 +6,36 @@ Key Features
 
 ## 1. Data Extraction
 
-    Retrieve in-depth information like benefits, dosage, and drawbacks.
-    Automatically suggest alternatives when the queried supplement isn’t found.
+Retrieve in-depth information like benefits, dosage, and drawbacks.
+Automatically suggest alternatives when the queried supplement isn’t found.
 
 ## 2. Optimized Web Scraping
 
-    Built with Puppeteer, employing request interception to block irrelevant resources and improve efficiency.
-    Summarizes extracted data for concise and user-friendly output.
+Built with Puppeteer, employing request interception to block irrelevant resources and improve efficiency.
+Summarizes extracted data for concise and user-friendly output.
 
 ## 3. Intelligent Query Handling
 
-    Provides helpful suggestions for similar supplements if no exact match is found.
-    Ensures clean, readable summaries of extracted data.
+Provides helpful suggestions for similar supplements if no exact match is found.
+Ensures clean, readable summaries of extracted data.
 
 ## 4. Deployment Simplicity
 
-    Fully containerized with Docker for straightforward deployment.
-    Includes a Postman workspace for effortless API testing.
+Fully containerized with Docker for straightforward deployment.
+Includes a Postman workspace for effortless API testing.
 
 Getting Started with Docker
 Step 1: Clone the Repository
 
-    git clone https://github.com/a3ylf/nutrish-case.git .
+git clone https://github.com/a3ylf/nutrish-case.git .
 
 Step 2: Build and Run the Docker Container
 
-    docker-compose up --build
+docker-compose up --build
 
 Alternatively, use:
 
-    npm run docker
+npm run docker
 
 Step 3: Access the Application
 
@@ -46,13 +46,13 @@ http://localhost:1212
 API Documentation
 Fetch Supplement Data
 
-    Endpoint: GET /fetch/{type}/{product}
-    Description: Retrieves comprehensive information about a specific topic from Examine.com. If no direct match is found, alternative suggestions with links to related pages are provided.
+Endpoint: GET /fetch/{type}/{product}
+Description: Retrieves comprehensive information about a specific topic from Examine.com. If no direct match is found, alternative suggestions with links to related pages are provided.
 
 Parameters:
 
-    type (required): category in which the product falls into (e.g., supplements)
-    product (required): Name of the product(e.g., creatine).
+type (required): category in which the product falls into (e.g., supplements)
+product (required): Name of the product(e.g., creatine).
 
 Example Request:
 
@@ -60,33 +60,33 @@ GET http://localhost:1212/fetch/supplements/creatine
 
 Health Check
 
-    Endpoint: GET /status
-    Description: Verifies if the API is operational.
+Endpoint: GET /status
+Description: Verifies if the API is operational.
 
 Technical Details
 Web Scraping with Puppeteer
 
-    Dynamically fetches content from Examine.com by waiting for the DOM to fully load.
-    Optimized through request interception, blocking unnecessary resources like images, fonts, and advertisements.
+Dynamically fetches content from Examine.com by waiting for the DOM to fully load.
+Optimized through request interception, blocking unnecessary resources like images, fonts, and advertisements.
 
 Dynamic Query Processing
 
-    Queries are sanitized by replacing spaces with hyphens and encoding special characters.
-    Provides related supplements when no exact match exists, enhancing usability.
+Queries are sanitized by replacing spaces with hyphens and encoding special characters.
+Provides related supplements when no exact match exists, enhancing usability.
 
 Error Management
 
-    Handles missing data or invalid inputs gracefully with informative error messages.
-    Automatically avoids duplicate entries by filtering results with a Set.
+Handles missing data or invalid inputs gracefully with informative error messages.
+Automatically avoids duplicate entries by filtering results with a Set.
 
 Summarized Responses
 
-    Optionally compresses extracted data into concise outputs for easier consumption.
+ Optionally compresses extracted data into concise outputs for easier consumption.
 
 Deployment Readiness
 
-    Dockerized for portability, ensuring fast and consistent deployment.
-    Preconfigured Postman collection simplifies API testing for developers.
+Dockerized for portability, ensuring fast and consistent deployment.
+Preconfigured Postman collection simplifies API testing for developers.
 
 Challenges and Solutions
 1. Scraping
@@ -106,14 +106,19 @@ Challenges and Solutions
 
 Technologies Used
 
-    Backend: Node.js with Puppeteer for web scraping.
-    Containerization: Docker for easy deployment.
-    Testing: Postman workspace for API validation.
-    Web Optimization: Request interception for faster scraping.
+Backend: Node.js with Puppeteer for web scraping.
+Containerization: Docker for easy deployment.
+Testing: Postman workspace for API validation.
+Web Optimization: Request interception for faster scraping.
 
 ### Currently hosted at render
+
 https://nutrish-case-1.onrender.com/
+
 example use cases
+
 https://nutrish-case-1.onrender.com/fetch/supplements/creatine
+
 https://nutrish-case-1.onrender.com/fetch/categories/sleep
+
 https://nutrish-case-1.onrender.com/fetch/conditions/insomnia
